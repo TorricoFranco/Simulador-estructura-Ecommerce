@@ -1,0 +1,212 @@
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbit_app
+    ports:
+      # - "5672:5672"  # acceso interno, no exponer afuera
+      - "8081:15672"  # panel de administración
+    volumes:
+      - ./rabbit-db:/var/lib/rabbitmq
+    environment:
+      NODE_ENV: development
+      RABBITMQ_DEFAULT_USER: 123
+      RABBITMQ_DEFAULT_PASS: 123
+    networks:
+      - ecommerce_net
+    restart: always
+
+  frontend:
+    build:
+      context: ./FRONTEND
+      dockerfile: Dockerfile
+    container_name: frontend_app
+    image: frontend:development
+    volumes:
+      - ./FRONTEND:/usr/src/FRONTEND
+    command: npx nodemon src/index.js --legacy-watch
+    environment:
+      NODE_ENV: development
+    ports:
+      - "4000:3000"
+    networks:
+      - frontend_net
+    restart: always
+
+  api_gateway:
+    build:
+      context: ./API_GATEWAY
+      dockerfile: Dockerfile
+    container_name: api_gateway_app
+    image: api_gateway:development
+    volumes:
+      - ./API_GATEWAY:/usr/src/API_GATEWAY
+    command: npx nodemon src/index.js --legacy-watch
+    environment:
+      NODE_ENV: development
+    ports:
+      - "3000:3000"
+    networks:
+      - ecommerce_net
+      - frontend_net
+    restart: always
+
+  # ----------------- MICRO SERVICIOS -----------------
+  analytics:
+    build:
+      context: ./services/analytics
+      dockerfile: Dockerfile
+    container_name: analytics_app
+    image: analytics:development
+    volumes:
+      - ./services/analytics:/usr/src/service/analytics
+    command: npx nodemon src/index.js --legacy-watch
+    environment:
+      NODE_ENV: development
+    expose:
+      - "3001"
+    networks:
+      - ecommerce_net
+    restart: always
+
+  auth:
+    build:
+      context: ./services/auth
+      dockerfile: Dockerfile
+    container_name: auth_app
+    image: auth:development
+    volumes:
+      - ./services/auth:/usr/src/service/auth
+    command: npx nodemon src/index.js --legacy-watch
+    environment:
+      NODE_ENV: development
+    expose:
+      - "3002"
+    networks:
+      - ecommerce_net
+    restart: always
+
+  cart:
+    build:
+      context: ./services/cart
+      dockerfile: Dockerfile
+    container_name: cart_app
+    image: cart:development
+    volumes:
+      - ./services/cart:/usr/src/service/cart
+    command: npx nodemon src/index.js --legacy-watch
+    environment:
+      NODE_ENV: development
+    expose:
+      - "3003"
+    networks:
+      - ecommerce_net
+    restart: always
+
+  emails:
+    build:
+      context: ./services/emails
+      dockerfile: Dockerfile
+    container_name: emails_app
+    image: emails:development
+    volumes:
+      - ./services/emails:/usr/src/service/emails
+    command: npx nodemon src/index.js --legacy-watch
+    environment:
+      NODE_ENV: development
+    expose:
+      - "3004"
+    networks:
+      - ecommerce_net
+    restart: always
+
+  orders:
+    build:
+      context: ./services/orders
+      dockerfile: Dockerfile
+    container_name: orders_app
+    image: orders:development
+    volumes:
+      - ./services/orders:/usr/src/service/orders
+    command: npx nodemon src/index.js --legacy-watch
+    environment:
+      NODE_ENV: development
+    expose:
+      - "3005"
+    networks:
+      - ecommerce_net
+    restart: always
+
+  products:
+    build:
+      context: ./services/products
+      dockerfile: Dockerfile
+    container_name: products_app
+    image: products:development
+    volumes:
+      - ./services/products:/usr/src/service/products
+    command: npx nodemon src/index.js --legacy-watch
+    environment:
+      NODE_ENV: development
+    expose:
+      - "3006"
+    networks:
+      - ecommerce_net
+    restart: always
+
+  shipping:
+    build:
+      context: ./services/shipping
+      dockerfile: Dockerfile
+    container_name: shipping_app
+    image: shipping:development
+    volumes:
+      - ./services/shipping:/usr/src/service/shipping
+    command: npx nodemon src/index.js --legacy-watch
+    environment:
+      NODE_ENV: development
+    expose:
+      - "3007"
+    networks:
+      - ecommerce_net
+    restart: always
+
+  accounts:
+    build:
+      context: ./services/accounts
+      dockerfile: Dockerfile
+    container_name: accounts_app
+    image: accounts:development
+    volumes:
+      - ./services/accounts:/usr/src/service/accounts
+    command: npx nodemon src/index.js --legacy-watch
+    environment:
+      NODE_ENV: development
+    expose:
+      - "3008"
+    networks:
+      - ecommerce_net
+    restart: always
+
+  payments:
+    build:
+      context: ./services/payments
+      dockerfile: Dockerfile
+    container_name: payments_app
+    image: payments:development
+    volumes:
+      - ./services/payments:/usr/src/service/payments
+    command: npx nodemon src/index.js --legacy-watch
+    environment:
+      NODE_ENV: development
+    expose:
+      - "3009"
+    networks:
+      - ecommerce_net
+    restart: always
+
+# ----------------- REDES -----------------
+networks:
+  frontend_net:
+    driver: bridge
+  ecommerce_net:
+    driver: bridge

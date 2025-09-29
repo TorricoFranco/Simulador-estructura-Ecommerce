@@ -1,0 +1,23 @@
+# Node
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Logs
+logs/
+*.log
+*.out
+*.err
+
+# Env
+.env
+.env.local
+.env.*.local
+
+# Build
+dist/
+build/
+
+# Docker
+*.pid

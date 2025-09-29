@@ -1,0 +1,2 @@
+VHOST: /
+QUEUE: emails_orders_queue

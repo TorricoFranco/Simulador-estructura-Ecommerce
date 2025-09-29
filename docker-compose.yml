@@ -1,0 +1,61 @@
+# version: "3.9"
+
+# services:
+#   gateway:
+#     build:
+#       context: ./gateway
+#       dockerfile: Dockerfile
+#     ports:
+#       - "3000:3000"
+#     depends_on:
+#       - accounts
+#       - products
+#       - orders
+#     networks:
+#       - ecommerce_net
+
+#   accounts:
+#     build:
+#       context: ./services/accounts
+#       dockerfile: Dockerfile
+#     expose:
+#       - "3001"
+#     networks:
+#       - ecommerce_net
+#     environment:
+#       - NODE_ENV=production
+
+#   products:
+#     build:
+#       context: ./services/products
+#       dockerfile: Dockerfile
+#     expose:
+#       - "3002"
+#     networks:
+#       - ecommerce_net
+#     environment:
+#       - NODE_ENV=production
+
+#   orders:
+#     build:
+#       context: ./services/orders
+#       dockerfile: Dockerfile
+#     expose:
+#       - "3003"
+#     networks:
+#       - ecommerce_net
+#     environment:
+#       - NODE_ENV=production
+
+#   rabbitmq:
+#     image: rabbitmq:3-management
+#     container_name: rabbitmq
+#     ports:
+#       - "5672:5672"   # broker
+#       - "15672:15672" # management web
+#     networks:
+#       - ecommerce_net
+
+# networks:
+#   ecommerce_net:
+#     driver: bridge
