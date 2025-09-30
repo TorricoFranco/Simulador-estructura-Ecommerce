@@ -3,6 +3,7 @@
 Este proyecto es un **simulador de e-commerce** basado en una arquitectura de **microservicios**.  
 Cada servicio cumple una responsabilidad específica y se comunica a través de **RabbitMQ** mediante publicación/suscripción de eventos.  
 
+- Botones de simulación → para permitir ejecutar diferentes operaciones del e-commerce (crear usuario, agregar productos al carrito, generar pagos, etc.) sin necesidad de un cliente real.
 ---
 
 ## 🚀 Tecnologías principales  
