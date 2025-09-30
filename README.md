@@ -15,6 +15,10 @@ Cada servicio cumple una responsabilidad específica y se comunica a través de 
 
 ---
 
+## 📚 Documentación
+
+Para ver la documentación completa del proyecto y todos los eventos de RabbitMQ, endpoints y flujo de microservicios, visitá el [Notion del proyecto](https://www.notion.so/TU_LINK_AQUI).
+
 ## 📦 Instalación y ejecución  
 
 ### 🔹 Desarrollo  
