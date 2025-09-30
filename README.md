@@ -8,7 +8,7 @@ Cada servicio cumple una responsabilidad específica y se comunica a través de 
 ## 🚀 Tecnologías principales  
 
 - **Node.js + Express** → Backend de cada microservicio.  
-- **React (Frontend)** → Interfaz de usuario.  
+- **Frontend html+js** → Interfaz de usuario.  
 - **RabbitMQ** → Comunicación asíncrona entre microservicios.  
 - **Docker + Docker Compose** → Orquestación y despliegue.  
 
@@ -22,10 +22,10 @@ En desarrollo se usa **`docker-compose.override.yml`** automáticamente:
 
 ```bash
 docker compose up --build
-
-Frontend: http://localhost:4000
-API Gateway: http://localhost:3000
-RabbitMQ panel: http://localhost:8081 (user: 123, pass: 123)
+```
+**Características principales:**  
+- 🔄 Uso de `nodemon` para recargar los servicios en caliente.  
+- 🗂️ Volúmenes para montar el código local → cambios inmediatos en los contenedores.
 
 ### 🔹 Producción  
 
@@ -33,6 +33,11 @@ En producción se levanta solo con el archivo base **`docker-compose.yml`**:
 
 ```bash
 docker compose -f docker-compose.yml up --build -d
+```
+
+Frontend: http://localhost:4000
+API Gateway: http://localhost:3000
+RabbitMQ panel: http://localhost:8081 (user: 123, pass: 123)
 
 ### 🔗 Conexión RabbitMQ  
 
@@ -40,9 +45,9 @@ Los microservicios se conectan a RabbitMQ usando:
 
 ```js
 const connection = process.env.CONNECTION_RABBITMQ || "amqp://123:123@rabbitmq:5672";
-
+```
 ⚠️ Nota: las credenciales (123/123) son solo de prueba y ya aparecen en el docker-compose.yml.
-En producción se recomienda cambiarlas.
+En producción se deben cambiarlas.
 
 ### 🌐 Arquitectura y flujo
 
