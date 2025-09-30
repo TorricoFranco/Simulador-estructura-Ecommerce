@@ -11,8 +11,9 @@ import { shippingHandlers } from "./rabbitmq/handle/shiping.handle.js"
 
 dotenv.config()
 
-const PORT = process.env.PORT || 3004
-const SERVICE_NAME = process.env.SERVICE_NAME || "emails"
+const PORT = process.env.PORT
+const SERVICE_NAME = process.env.SERVICE_NAME
+const ENVIROMENT = process.env.NODE_ENV
 
 const app = express()
 app.use(cors())
@@ -20,7 +21,8 @@ app.use(express.json())
 
 
 app.listen(PORT, async () => {
-  console.log(`Server running on server http:${SERVICE_NAME}:${PORT}`) 
+  console.log(`Server running on server http:${SERVICE_NAME}:${PORT} en modo en modo: ${ENVIROMENT}`) 
+
   await retryConnection(connectRabbitMQ, 20, 3000)
   
   // Subscriber de las orders

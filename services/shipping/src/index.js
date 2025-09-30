@@ -9,8 +9,10 @@ import { retryConnection } from "./utils/retry.js"
 
 dotenv.config()
 
-const PORT = process.env.PORT || 3007
-const SERVICE_NAME = process.env.SERVICE_NAME || "shipping"
+const PORT = process.env.PORT
+const SERVICE_NAME = process.env.SERVICE_NAME
+const ENVIROMENT = process.env.NODE_ENV
+
 
 const app = express()
 app.use(cors())
@@ -20,7 +22,7 @@ app.use(express.json())
 shippingRouter(app)
 
 app.listen(PORT, async () => {
-  console.log(`Server running on server http:${SERVICE_NAME}:${PORT}`) 
+  console.log(`Server running on server http:${SERVICE_NAME}:${PORT} en modo en modo: ${ENVIROMENT}`) 
   
   await retryConnection(connectRabbitMQ, 20, 3000)
 

@@ -6,11 +6,13 @@ import { retryConnection } from "./utils/retry.js"
 
 const app = express()
 
+const PORT = process.env.PORT
+const SERVICE_NAME = process.env.SERVICE_NAME
+const ENVIROMENT = process.env.NODE_ENV
+
 dotenv.config()
 app.use(express.json())
 
-const PORT = process.env.PORT || 3002
-const SERVICE_NAME = process.env.SERVICE_NAME || "auth"
 
 async function initConnections() {
   await retryConnection(connectRabbitMQ, 20, 3000); 
@@ -20,6 +22,6 @@ async function initConnections() {
 authRouter(app)
 
 app.listen(PORT, async () => {
-  console.log(`✅ ${SERVICE_NAME} service escuchando en puerto ${PORT}`)
+  console.log(`Server running on server http:${SERVICE_NAME}:${PORT} en modo en modo: ${ENVIROMENT}`) 
   await initConnections()
 })

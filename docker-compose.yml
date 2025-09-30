@@ -1,61 +1,196 @@
-# version: "3.9"
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbit_app
+    ports:
+      - "8081:15672"   # panel de administración
+    volumes:
+      - ./rabbit-db:/var/lib/rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: 123
+      RABBITMQ_DEFAULT_PASS: 123
+    networks:
+      - ecommerce_net
+    restart: always
 
-# services:
-#   gateway:
-#     build:
-#       context: ./gateway
-#       dockerfile: Dockerfile
-#     ports:
-#       - "3000:3000"
-#     depends_on:
-#       - accounts
-#       - products
-#       - orders
-#     networks:
-#       - ecommerce_net
+  frontend:
+    build:
+      context: ./FRONTEND
+      dockerfile: Dockerfile
+    image: frontend:production
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      SERVICE_NAME: frontend
+    ports:
+      - "4000:3000"   # acceso desde host
+    networks:
+      - frontend_net
+    restart: always
 
-#   accounts:
-#     build:
-#       context: ./services/accounts
-#       dockerfile: Dockerfile
-#     expose:
-#       - "3001"
-#     networks:
-#       - ecommerce_net
-#     environment:
-#       - NODE_ENV=production
+  api_gateway:
+    build:
+      context: ./API_GATEWAY
+      dockerfile: Dockerfile
+    image: api_gateway:production
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      SERVICE_NAME: api_gateway
+    ports:
+      - "3000:3000"   # acceso desde host
+    networks:
+      - ecommerce_net
+      - frontend_net
+    restart: always
 
-#   products:
-#     build:
-#       context: ./services/products
-#       dockerfile: Dockerfile
-#     expose:
-#       - "3002"
-#     networks:
-#       - ecommerce_net
-#     environment:
-#       - NODE_ENV=production
+  # ----------------- MICRO SERVICIOS -----------------
+  analytics:
+    build:
+      context: ./services/analytics
+      dockerfile: Dockerfile
+    container_name: analytics_app
+    image: analytics:production
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      SERVICE_NAME: analytics
+    expose:
+      - "3001"
+    networks:
+      - ecommerce_net
+    restart: always
 
-#   orders:
-#     build:
-#       context: ./services/orders
-#       dockerfile: Dockerfile
-#     expose:
-#       - "3003"
-#     networks:
-#       - ecommerce_net
-#     environment:
-#       - NODE_ENV=production
+  auth:
+    build:
+      context: ./services/auth
+      dockerfile: Dockerfile
+    container_name: auth_app
+    image: auth:production
+    environment:
+      NODE_ENV: production
+      PORT: 3002
+      SERVICE_NAME: auth
+    expose:
+      - "3002"
+    networks:
+      - ecommerce_net
+    restart: always
 
-#   rabbitmq:
-#     image: rabbitmq:3-management
-#     container_name: rabbitmq
-#     ports:
-#       - "5672:5672"   # broker
-#       - "15672:15672" # management web
-#     networks:
-#       - ecommerce_net
+  cart:
+    build:
+      context: ./services/cart
+      dockerfile: Dockerfile
+    container_name: cart_app
+    image: cart:production
+    environment:
+      NODE_ENV: production
+      PORT: 3003
+      SERVICE_NAME: cart
+    expose:
+      - "3003"
+    networks:
+      - ecommerce_net
+    restart: always
 
-# networks:
-#   ecommerce_net:
-#     driver: bridge
+  emails:
+    build:
+      context: ./services/emails
+      dockerfile: Dockerfile
+    container_name: emails_app
+    image: emails:production
+    environment:
+      NODE_ENV: production
+      PORT: 3004
+      SERVICE_NAME: emails
+    expose:
+      - "3004"
+    networks:
+      - ecommerce_net
+    restart: always
+
+  orders:
+    build:
+      context: ./services/orders
+      dockerfile: Dockerfile
+    container_name: orders_app
+    image: orders:production
+    environment:
+      NODE_ENV: production
+      PORT: 3005
+      SERVICE_NAME: orders
+    expose:
+      - "3005"
+    networks:
+      - ecommerce_net
+    restart: always
+
+  products:
+    build:
+      context: ./services/products
+      dockerfile: Dockerfile
+    container_name: products_app
+    image: products:production
+    environment:
+      NODE_ENV: production
+      PORT: 3006
+      SERVICE_NAME: products
+    expose:
+      - "3006"
+    networks:
+      - ecommerce_net
+    restart: always
+
+  shipping:
+    build:
+      context: ./services/shipping
+      dockerfile: Dockerfile
+    container_name: shipping_app
+    image: shipping:production
+    environment:
+      NODE_ENV: production
+      PORT: 3007
+      SERVICE_NAME: shipping
+    expose:
+      - "3007"
+    networks:
+      - ecommerce_net
+    restart: always
+
+  accounts:
+    build:
+      context: ./services/accounts
+      dockerfile: Dockerfile
+    container_name: accounts_app
+    image: accounts:production
+    environment:
+      NODE_ENV: production
+      PORT: 3008
+      SERVICE_NAME: accounts
+    expose:
+      - "3008"
+    networks:
+      - ecommerce_net
+    restart: always
+
+  payments:
+    build:
+      context: ./services/payments
+      dockerfile: Dockerfile
+    container_name: payments_app
+    image: payments:production
+    environment:
+      NODE_ENV: production
+      PORT: 3009
+      SERVICE_NAME: payments
+    expose:
+      - "3009"
+    networks:
+      - ecommerce_net
+    restart: always
+
+networks:
+  ecommerce_net:
+    driver: bridge
+  frontend_net:
+    driver: bridge

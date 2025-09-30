@@ -9,8 +9,9 @@ import { connectRabbitMQ } from "./rabbitmq/connect.js"
 
 dotenv.config()
 
-const PORT = process.env.PORT || 3005
-const SERVICE_NAME = process.env.SERVICE_NAME || "orders"
+const PORT = process.env.PORT
+const SERVICE_NAME = process.env.SERVICE_NAME
+const ENVIROMENT = process.env.NODE_ENV
 
 const app = express()
 app.use(cors())
@@ -25,7 +26,7 @@ async function initConnections() {
 ordersRouter(app)
 
 app.listen(PORT, async () => {
-  console.log(`Server running on server http:${SERVICE_NAME}:${PORT}`) 
+  console.log(`Server running on server http:${SERVICE_NAME}:${PORT} en modo en modo: ${ENVIROMENT}`) 
 
   await initConnections()
 })
