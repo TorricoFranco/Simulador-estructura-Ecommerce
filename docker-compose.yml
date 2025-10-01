@@ -5,7 +5,7 @@ services:
     ports:
       - "8081:15672"   # panel de administración
     volumes:
-      - ./rabbit-db:/var/lib/rabbitmq
+      - rabbitmq_data:/var/lib/rabbitmq
     environment:
       RABBITMQ_DEFAULT_USER: 123
       RABBITMQ_DEFAULT_PASS: 123
@@ -194,3 +194,6 @@ networks:
     driver: bridge
   frontend_net:
     driver: bridge
+
+volumes:
+  rabbitmq_data:

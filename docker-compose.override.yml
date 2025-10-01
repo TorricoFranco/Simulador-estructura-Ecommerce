@@ -6,7 +6,8 @@ services:
       # - "5672:5672"  # acceso interno, no exponer afuera
       - "8081:15672"  # panel de administración
     volumes:
-      - ./rabbit-db:/var/lib/rabbitmq
+      - rabbitmq_data:/var/lib/rabbitmq
+
     environment:
       NODE_ENV: development
       RABBITMQ_DEFAULT_USER: 123
@@ -23,6 +24,7 @@ services:
     image: frontend:development
     volumes:
       - ./FRONTEND:/usr/src/FRONTEND
+      - /usr/src/FRONTEND/node_modules
     command: npx nodemon src/index.js --legacy-watch
     environment:
       NODE_ENV: development
@@ -42,6 +44,7 @@ services:
     image: api_gateway:development
     volumes:
       - ./API_GATEWAY:/usr/src/API_GATEWAY
+      - /usr/src/API_GATEWAY/node_modules
     command: npx nodemon src/index.js --legacy-watch
     environment:
       NODE_ENV: development
@@ -63,6 +66,8 @@ services:
     image: analytics:development
     volumes:
       - ./services/analytics:/usr/src/service/analytics
+      - /usr/src/service/analytics/node_modules
+
     command: npx nodemon src/index.js --legacy-watch
     environment:
       NODE_ENV: development
@@ -82,6 +87,7 @@ services:
     image: auth:development
     volumes:
       - ./services/auth:/usr/src/service/auth
+      - /usr/src/service/auth/node_modules
     command: npx nodemon src/index.js --legacy-watch
     environment:
       NODE_ENV: development
@@ -101,6 +107,7 @@ services:
     image: cart:development
     volumes:
       - ./services/cart:/usr/src/service/cart
+      - /usr/src/service/cart/node_modules
     command: npx nodemon src/index.js --legacy-watch
     environment:
       NODE_ENV: development
@@ -120,6 +127,7 @@ services:
     image: emails:development
     volumes:
       - ./services/emails:/usr/src/service/emails
+      - /usr/src/service/emails/node_modules
     command: npx nodemon src/index.js --legacy-watch
     environment:
       NODE_ENV: development
@@ -139,6 +147,8 @@ services:
     image: orders:development
     volumes:
       - ./services/orders:/usr/src/service/orders
+      - /usr/src/service/orders/node_modules
+
     command: npx nodemon src/index.js --legacy-watch
     environment:
       NODE_ENV: development
@@ -158,6 +168,7 @@ services:
     image: products:development
     volumes:
       - ./services/products:/usr/src/service/products
+      - /usr/src/service/products/node_modules
     command: npx nodemon src/index.js --legacy-watch
     environment:
       NODE_ENV: development
@@ -177,6 +188,7 @@ services:
     image: shipping:development
     volumes:
       - ./services/shipping:/usr/src/service/shipping
+      - /usr/src/service/shipping/node_modules
     command: npx nodemon src/index.js --legacy-watch
     environment:
       NODE_ENV: development
@@ -196,6 +208,7 @@ services:
     image: accounts:development
     volumes:
       - ./services/accounts:/usr/src/service/accounts
+      - /usr/src/service/accounts/node_modules
     command: npx nodemon src/index.js --legacy-watch
     environment:
       NODE_ENV: development
@@ -215,6 +228,7 @@ services:
     image: payments:development
     volumes:
       - ./services/payments:/usr/src/service/payments
+      - /usr/src/service/payments/node_modules
     command: npx nodemon src/index.js --legacy-watch
     environment:
       NODE_ENV: development
@@ -232,3 +246,8 @@ networks:
     driver: bridge
   ecommerce_net:
     driver: bridge
+
+
+      
+volumes:
+  rabbitmq_data:
