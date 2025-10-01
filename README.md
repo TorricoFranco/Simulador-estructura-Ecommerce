@@ -17,7 +17,8 @@ Cada servicio cumple una responsabilidad específica y se comunica a través de 
 
 ## 📚 Documentación
 
-Para ver la documentación completa del proyecto y todos los eventos de RabbitMQ, endpoints y flujo de microservicios, visitá el [Notion del proyecto](# 🛍️ E-commerce Simulator con Microservicios y RabbitMQ  
+Para ver la documentación completa del proyecto y todos los eventos de RabbitMQ, endpoints y flujo de microservicios, visitá el [Notion del proyecto](https://cottony-lotus-ec4.notion.site/ESTRUCTURA-DE-ECCOMMERS-25087afe68ce80f4bf09df15baac6056)
+# 🛍️ E-commerce Simulator con Microservicios y RabbitMQ  
 
 Este proyecto es un **simulador de e-commerce** basado en una arquitectura de **microservicios**.  
 Cada servicio cumple una responsabilidad específica y se comunica a través de **RabbitMQ** mediante publicación/suscripción de eventos.  
