@@ -39,6 +39,11 @@ Cada servicio cumple una responsabilidad específica y se comunica a través de 
 
 Para ver la documentación completa del proyecto y todos los eventos de RabbitMQ, endpoints y flujo de microservicios, visitá el [Notion del proyecto](https://cottony-lotus-ec4.notion.site/ESTRUCTURA-DE-ECCOMMERS-25087afe68ce80f4bf09df15baac6056).
 
+<p align="center">
+  <img src="./assets/digrama.png" alt="Banner del proyecto" width="700" style="border-radius: 10px;">
+</p>
+
+
 ## 📦 Instalación y ejecución  
 
 ### 🔹 Desarrollo  
